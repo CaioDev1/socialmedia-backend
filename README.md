@@ -250,7 +250,7 @@ Para inicialização correta da aplicação, primeiro é necessário que o NodeJ
 
 </br>
 
-### Exemplo de requisição na rota `/quizz/:quizzId`
+### Exemplo de requisição na rota `/posts`
 
 </br>
 
