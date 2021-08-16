@@ -10,17 +10,7 @@ route.get('/topposts', (req, res) => {
         content: true,
         userId: true,
         love: true
-    }).sort({love: -1}).limit(10).then(data => {
-        /* data = data.map(post => {
-            return {
-                postId: post._id,
-                username: post.username,
-                photo: post.photo,
-                content: post.content,
-                userId: post.userId
-            }
-        }) */
-        
+    }).sort({love: -1}).limit(10).then(data => {        
         res.send({
             posts: data
         })

@@ -26,9 +26,9 @@ module.exports = class Firebase {
         return firebase.default.storage()
     }
 
-    static uploadImage(file, date, usernameHashed) {
+    static uploadImage(file, date, login) {
         return new Promise((resolve, reject) => {
-            let uploadTask = Firebase.storage().ref(usernameHashed + date).child(`${date}_${file.originalname}`).put(file.buffer, {
+            let uploadTask = Firebase.storage().ref(login + date).child(`${date}_${file.originalname}`).put(file.buffer, {
                 customMetadata: {
                     auth: process.env.FIREBASE_UPLOAD_KEY,
                 },

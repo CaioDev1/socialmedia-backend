@@ -56,26 +56,15 @@ module.exports = function(io) {
         }, {
             abortEarly: false
         }).then(() => {
-            /* usersCollection.findById({_id: mongoose.Types.ObjectId(db_user_id)}, {
-                username: true,
-                photo: true
-            }).then(doc => {
-                if(doc) { */
-                    postCollection.updateOne({_id: mongoose.Types.ObjectId(postid)}, {$push: {comments: {
-                        userId: /* doc._id */ mongoose.Types.ObjectId(req.session.user.db_user_id),
-                        username: /* doc.username */ req.session.user.username,
-                        photo: /* doc.userPhoto */ req.session.user.photo,
-                        content
-                    }}}).then(() => {
-                        io.io.emit('newcomment')
-                        res.send({message: 'Comment added'})
-                    }).catch(err => next(err))
-                /* } else {
-                    res.status(404).send({
-                        message: 'User not found.'
-                    })
-                }
-            }).catch(err => next(err)) */
+            postCollection.updateOne({_id: mongoose.Types.ObjectId(postid)}, {$push: {comments: {
+                userId: mongoose.Types.ObjectId(req.session.user.db_user_id),
+                username: req.session.user.username,
+                photo: req.session.user.photo,
+                content
+            }}}).then(() => {
+                io.io.emit('newcomment')
+                res.send({message: 'Comment added'})
+            }).catch(err => next(err))
         }).catch(err => next(err))
     })
 

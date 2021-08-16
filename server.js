@@ -25,11 +25,11 @@ let currentSocketClient = {
 io.on('connection', socket => {
     console.log('connected to Socket.IO with ID: ' + socket.id)
     currentSocketClient['socket'] = socket
-})
 
-io.on('disconnect', socket => {
-    console.log('disconnected from Socket.IO with ID: ' + socket.id)
-    currentSocketClient = {}
+    io.on('disconnect', socket => {
+        console.log('disconnected from Socket.IO with ID: ' + socket.id)
+        currentSocketClient = {}
+    })
 })
 
 // MIDDLEWARES
@@ -73,7 +73,7 @@ app.use(errorHandlerMiddleware)
 mongoose.connect(process.env.MONGO_API_ADDRESS, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
     .then(() => {console.log('MongoDB Connected')})
     .catch(err => {console.log(err)})
-    
+      
 // PORTAS
 http.listen(process.env.PORT || 5000, () => {
     console.log('Server running')

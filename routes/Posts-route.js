@@ -24,29 +24,17 @@ module.exports = function(io) {
         }, {
             abortEarly: false
         }).then(() => {
-            /* usersCollection.findById({_id: mongoose.Types.ObjectId(db_user_id)}, {
-                _id: true,
-                photo: true,
-                username: true
-            }).then(doc => {
-                if(doc) { */
-                    const newPost = new postCollection({
-                        userId: /* doc._id */mongoose.Types.ObjectId(req.session.user.db_user_id),
-                        photo: /* doc.photo */req.session.user.photo,
-                        username: /* doc.username */req.session.user.username,
-                        content,
-                    })
-                    
-                    newPost.save().then(() => {
-                        io.io.emit('newpost')
-                        res.send({message: 'Post sent successfully.'})
-                    }).catch(err => next(err))
-                /* } else {
-                    res.status(404).send({
-                        message: 'User not found.'
-                    })
-                }
-            }).catch(err => next(err)) */
+            const newPost = new postCollection({
+                userId: mongoose.Types.ObjectId(req.session.user.db_user_id),
+                photo: req.session.user.photo,
+                username: req.session.user.username,
+                content,
+            })
+            
+            newPost.save().then(() => {
+                io.io.emit('newpost')
+                res.send({message: 'Post sent successfully.'})
+            }).catch(err => next(err))
         }).catch(err => next(err))
     })
 

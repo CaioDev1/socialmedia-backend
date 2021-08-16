@@ -1,7 +1,7 @@
 {
-  "name": "pernambook",
+  "name": "mindzone",
   "version": "1.0.0",
-  "description": "Uma aplicação de interação web para pernambucanos.",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",

@@ -28,7 +28,7 @@ route.post('/register', upload.single('photo'), (req, res, next) => {
 
     const schema = yup.object().shape({
         login: yup.string().required().min(4).trim().strict().matches(/^[a-zA-Z0-9@_.-]*$/, 'Special characters and spaces are not allowed on login field.'),
-        username: yup.string().required().min(3).trim().strict().matches(/^[a-zA-Z\s]*$/, 'Special characters and numbers are not allowed on username field.'),
+        username: yup.string().required().min(3).trim().strict().matches(/^[a-zA-ZzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s]*$/, 'Special characters and numbers are not allowed on username field.'),
         profilePhoto: yup.object().shape({
             size: yup.number().moreThan(0).required(),
             mimetype: yup.string().equals(['image/png', 'image/jpg', 'image/jpeg']).required()
@@ -50,7 +50,7 @@ route.post('/register', upload.single('photo'), (req, res, next) => {
                 if(exists) {
                     res.status(401).send({message: `Login: '${login}' already registered, please, insert another one.`, redirect: false})
                 } else {
-                    Firebase.uploadImage(profilePhoto, Date.now(), username).then(url => {
+                    Firebase.uploadImage(profilePhoto, Date.now(), login).then(url => {
                         bcrypt.hash(password ? password : fbId, 10,).then(hash => {
                             let time = `${username}${Date.now()}`
 

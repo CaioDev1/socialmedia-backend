@@ -105,18 +105,14 @@ module.exports = function(io) {
         }, {
             abortEarly: false
         }).then(() => {
-            usersCollection./* findByIdAndUpdate */updateOne({_id: mongoose.Types.ObjectId(db_user_id)}, 
+            usersCollection.updateOne({_id: mongoose.Types.ObjectId(db_user_id)}, 
             {$push: {
                 'friends.sentRequests': mongoose.Types.ObjectId(postuserid)
-            }}/* , {fields: {
-                username: true,
-                photo: true
-            }} */).then(doc => {
-                /* if(doc) {  */
+            }}).then(doc => {
                     let request = {
-                        userId: /* doc._id */mongoose.Types.ObjectId(req.session.user.db_user_id),
-                        username: /* doc.username */req.session.user.username,
-                        photo: /* doc.photo */req.session.user.photo
+                        userId: mongoose.Types.ObjectId(req.session.user.db_user_id),
+                        username: req.session.user.username,
+                        photo: req.session.user.photo
                     }
 
                     usersCollection.updateOne({_id: mongoose.Types.ObjectId(postuserid)}, {$push: {'friends.friendRequests': request}}).then(() => {
@@ -127,11 +123,6 @@ module.exports = function(io) {
                             message: 'Friend request sent successfully.'
                         })
                     }).catch(err => next(err))
-                /* } else {
-                    res.status(404).send({
-                        message: 'User not found.'
-                    })
-                } */
             }).catch(err => next(err))
         }).catch(err => next(err))
     }) 
@@ -181,27 +172,20 @@ module.exports = function(io) {
         }, {
             abortEarly: false
         }).then(() => {
-            usersCollection./* findByIdAndUpdate */updateOne({_id: mongoose.Types.ObjectId(db_user_id)}, {
+            usersCollection.updateOne({_id: mongoose.Types.ObjectId(db_user_id)}, {
                 $pull: {'friends.friendRequests': {userId: mongoose.Types.ObjectId(userid)}}
-            }/* , {fields: {
-                username: true,
-                photo: true
-            }}*/)/*.then(doc => {
-
-            })*/.catch(err => next(err))
-
-            /* if(doc) { */
+            }).catch(err => next(err))
                 if(result) {
                     usersCollection.findByIdAndUpdate({_id: mongoose.Types.ObjectId(userid)}, {$push: {'friends.friendList': {
-                        userId: mongoose.Types.ObjectId(/* doc._id */req.session.user.db_user_id),
-                        username: /* doc.username */req.session.user.username,
-                        photo: /* doc.photo */req.session.user.photo
+                        userId: mongoose.Types.ObjectId(req.session.user.db_user_id),
+                        username: req.session.user.username,
+                        photo: req.session.user.photo
                     }}, $pull: {
                         'friends.sentRequests': mongoose.Types.ObjectId(db_user_id)
                     }}, {
                         fields: {username: true, photo: true}
                     }).then(userDoc => {
-                        /* doc */usersCollection.updateOne({_id: mongoose.Types.ObjectId(/* doc._id */req.session.user.db_user_id)}, {$push: {'friends.friendList': {
+                        usersCollection.updateOne({_id: mongoose.Types.ObjectId(req.session.user.db_user_id)}, {$push: {'friends.friendList': {
                             userId: mongoose.Types.ObjectId(userDoc._id),
                             username: userDoc.username,
                             photo: userDoc.photo
@@ -222,11 +206,6 @@ module.exports = function(io) {
                         message: 'Friend request denied successfully.'
                     })
                 }
-            /* } else {
-                res.status(404).send({
-                    message: 'User not found.'
-                })
-            } */
         }).catch(err => next(err))
     })
 

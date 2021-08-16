@@ -11,7 +11,7 @@ route.get('/userfilter', (req, res, next) => {
     let schema = yup.object().shape({
         username: yup.string().trim().strict().notRequired(),
         from: yup.number().integer().min(0).required(),
-        to: yup.number().integer().positive().required() // não sei se precisa ser múltiplo de 10
+        to: yup.number().integer().positive().required()
     })
 
     schema.validate({
