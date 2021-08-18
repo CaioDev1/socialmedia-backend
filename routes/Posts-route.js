@@ -9,18 +9,14 @@ const yup = require('yup')
 module.exports = function(io) {
     /* ADICIONAR NOVO POST NO BANCO DE DADOS */
     route.post('/posts', (req, res, next) => {
-        let {content, db_user_id} = req.body
+        let {content} = req.body
 
         let schema = yup.object().shape({
             content: yup.string().min(1).max(400).required(),
-            db_user_id: yup.string().test('ObjectId', 'this is not a valid database ID', value => {
-                return mongoose.isValidObjectId(value)
-            }).required()
         })
 
         schema.validate({
-            content,
-            db_user_id
+            content
         }, {
             abortEarly: false
         }).then(() => {
